@@ -1,0 +1,12 @@
+rules:
+    - Juampi92\PHPStanEloquentBoundedContext\ReadOnlyModelsRule
+    - Juampi92\PHPStanEloquentBoundedContext\RestrictModelUpdateRule
+
+services:
+	domainResolver:
+		class: Juampi92\PHPStanEloquentBoundedContext\DomainResolver
+		arguments:
+		    domainDefinitionFiles: %domainDefinitionFiles%
+
+parametersSchema:
+    domainDefinitionFiles: listOf(string())
