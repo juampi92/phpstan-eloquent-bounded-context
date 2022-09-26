@@ -33,14 +33,12 @@
   },
   "scripts": {
     "test": "vendor/bin/phpunit --colors=always",
-    "test-coverage": "vendor/bin/phpunit --coverage-html coverage",
-    "php-cs-fix": "vendor/bin/php-cs-fixer fix --config=.php-cs-fixer.dist.php -vv",
-    "phpstan": "./vendor/bin/phpstan analyze -c phpstan.neon.dist --memory-limit 1G"
+    "test-coverage": "vendor/bin/phpunit --coverage-html coverage"
   },
   "extra": {
-    "laravel": {
-      "providers": [
-        "Juampi92\\Phecks\\PhecksServiceProvider"
+    "phpstan": {
+      "includes": [
+        "extension.neon"
       ]
     }
   }
