@@ -6,7 +6,6 @@ use Juampi92\PHPStanEloquentBoundedContext\RestrictModelStaticUpdateRule;
 use Juampi92\PHPStanEloquentBoundedContext\Tests\Fakes\DomainResolverFake;
 use Juampi92\PHPStanEloquentBoundedContext\Tests\Fixtures\App\Domains\Posts\Comment;
 use Juampi92\PHPStanEloquentBoundedContext\Tests\Fixtures\App\Domains\Posts\Models\Post;
-use Juampi92\PHPStanEloquentBoundedContext\Tests\Fixtures\App\Models\User;
 use PHPStan\Rules\Rule;
 use PHPStan\Testing\RuleTestCase;
 

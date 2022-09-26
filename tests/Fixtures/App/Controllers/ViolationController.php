@@ -2,8 +2,8 @@
 
 namespace Juampi92\PHPStanEloquentBoundedContext\Tests\Fixtures\App\Controllers;
 
-use Juampi92\PHPStanEloquentBoundedContext\Tests\Fixtures\App\Models\User;
 use Juampi92\PHPStanEloquentBoundedContext\Tests\Fixtures\App\Domains\Posts\Models\Post;
+use Juampi92\PHPStanEloquentBoundedContext\Tests\Fixtures\App\Models\User;
 
 class ViolationController
 {

@@ -4,7 +4,6 @@ namespace Juampi92\PHPStanEloquentBoundedContext;
 
 use Illuminate\Database\Eloquent\Model;
 use PhpParser\Node;
-use PhpParser\Node\Expr\Assign;
 use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\ReflectionProvider;
 use PHPStan\Rules\Rule;

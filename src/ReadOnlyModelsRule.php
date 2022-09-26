@@ -36,10 +36,10 @@ class ReadOnlyModelsRule implements Rule
             return [];
         }
 
-        /** @var Node\Expr\Variable $identifier */
-        $identifier = $node->var->var;
+        /** @var Node\Expr\Variable $variable */
+        $variable = $node->var->var;
 
-        $classname = $scope->getType($identifier)->getReferencedClasses()[0] ?? null;
+        $classname = $scope->getType($variable)->getReferencedClasses()[0] ?? null;
 
         if (! $classname) {
             return [];
