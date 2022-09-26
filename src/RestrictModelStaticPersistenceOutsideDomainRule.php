@@ -2,12 +2,10 @@
 
 namespace Juampi92\PHPStanEloquentBoundedContext;
 
-use Illuminate\Database\Eloquent\Model;
 use PhpParser\Node;
 use PhpParser\Node\Expr\StaticCall;
 use PhpParser\Node\Name\FullyQualified;
 use PHPStan\Analyser\Scope;
-use PHPStan\Reflection\ReflectionProvider;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleErrorBuilder;
 
@@ -16,13 +14,10 @@ class RestrictModelStaticPersistenceOutsideDomainRule implements Rule
     /** @var array<string> */
     private const MUTABLE_METHODS = ['create', 'findOrCreate'];
 
-    private ReflectionProvider $reflectionProvider;
+    private DomainResolver $domainResolver;
 
-    protected DomainResolver $domainResolver;
-
-    public function __construct(ReflectionProvider $reflectionProvider, DomainResolver $domainResolver)
+    public function __construct(DomainResolver $domainResolver)
     {
-        $this->reflectionProvider = $reflectionProvider;
         $this->domainResolver = $domainResolver;
     }
 
@@ -51,14 +46,6 @@ class RestrictModelStaticPersistenceOutsideDomainRule implements Rule
 
         /** @var FullyQualified $class */
         $classname = (string) $node->class;
-
-        $class = $this->reflectionProvider->getClass($classname);
-
-        if (! $class->isSubclassOf(Model::class)) {
-            var_dump($class->getName(), $class->getParentClassesNames(), $class->getParents(), $class->getParentClass());
-
-            return [];
-        }
 
         if (! $this->domainResolver->has($classname)) {
             return [

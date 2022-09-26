@@ -23,10 +23,7 @@ class RestrictModelPersistenceOutsideDomainRuleTest extends RuleTestCase
             Post::class => 'Juampi92\PHPStanEloquentBoundedContext\Tests\Fixtures\App\Domains\Posts',
         ]);
 
-        return new RestrictModelPersistenceOutsideDomainRule(
-            $this->createReflectionProvider(),
-            $domainResolver,
-        );
+        return new RestrictModelPersistenceOutsideDomainRule($domainResolver);
     }
 
     public function testViolation(): void
