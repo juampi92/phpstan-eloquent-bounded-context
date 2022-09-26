@@ -2,12 +2,12 @@
 
 namespace Juampi92\PHPStanEloquentBoundedContext\Tests\Fixtures\App\Models;
 
-use FakeModel;
+use Illuminate\Database\Eloquent\Model;
 
 /**
  * @property int $id
  * @property string $email
  */
-class User extends FakeModel
+class User extends Model
 {
 }

@@ -24,7 +24,10 @@ class RestrictModelMutationOutsideDomainRuleTest extends RuleTestCase
             Post::class => 'Juampi92\PHPStanEloquentBoundedContext\Tests\Fixtures\App\Domains\Posts',
         ]);
 
-        return new RestrictModelMutationOutsideDomainRule($domainResolver);
+        return new RestrictModelMutationOutsideDomainRule(
+            $this->createReflectionProvider(),
+            $domainResolver,
+        );
     }
 
     public function testViolation(): void

@@ -2,9 +2,11 @@
 
 namespace Juampi92\PHPStanEloquentBoundedContext;
 
+use Illuminate\Database\Eloquent\Model;
 use PhpParser\Node;
 use PhpParser\Node\Expr\MethodCall;
 use PHPStan\Analyser\Scope;
+use PHPStan\Reflection\ReflectionProvider;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleErrorBuilder;
 
@@ -23,10 +25,13 @@ class RestrictModelPersistenceOutsideDomainRule implements Rule
         'delete', 'restore', 'forceDelete', 'deleteQuietly', 'restoreQuietly',
     ];
 
-    private DomainResolver $domainResolver;
+    private ReflectionProvider $reflectionProvider;
 
-    public function __construct(DomainResolver $domainResolver)
+    protected DomainResolver $domainResolver;
+
+    public function __construct(ReflectionProvider $reflectionProvider, DomainResolver $domainResolver)
     {
+        $this->reflectionProvider = $reflectionProvider;
         $this->domainResolver = $domainResolver;
     }
 
@@ -55,6 +60,14 @@ class RestrictModelPersistenceOutsideDomainRule implements Rule
         $classname = $scope->getType($variable)->getReferencedClasses()[0] ?? null;
 
         if (! $classname) {
+            return [];
+        }
+
+        $class = $this->reflectionProvider->getClass($classname);
+
+        if (! $class->isSubclassOf(Model::class)) {
+            var_dump($class->getName(), $class->getParentClassesNames(), $class->getParents(), $class->getParentClass());
+
             return [];
         }
 

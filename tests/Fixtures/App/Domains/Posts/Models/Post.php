@@ -2,12 +2,12 @@
 
 namespace Juampi92\PHPStanEloquentBoundedContext\Tests\Fixtures\App\Domains\Posts\Models;
 
-use Juampi92\PHPStanEloquentBoundedContext\Tests\Fixtures\FakeModel;
+use Illuminate\Database\Eloquent\Model;
 
 /**
  * @property int $id
  * @property string $title
  */
-class Post extends FakeModel
+class Post extends Model
 {
 }
