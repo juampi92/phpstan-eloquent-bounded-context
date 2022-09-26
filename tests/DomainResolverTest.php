@@ -101,7 +101,7 @@ class DomainResolverTest extends TestCase
         $domainResolver = new DomainResolver([]);
 
         $this->assertEquals(
-            $expected, $domainResolver->matches($model, $domainClass),
+            $expected, $domainResolver->matches($model, $domainClass)
         );
     }
 

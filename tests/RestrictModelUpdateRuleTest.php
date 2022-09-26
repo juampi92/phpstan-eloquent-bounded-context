@@ -24,8 +24,8 @@ class RestrictModelUpdateRuleTest extends RuleTestCase
         ]);
 
         return new RestrictModelUpdateRule(
-            reflectionProvider: $this->createReflectionProvider(),
-            domainResolver: $domainResolver,
+            $this->createReflectionProvider(),
+            $domainResolver,
         );
     }
 

@@ -25,8 +25,8 @@ class ReadOnlyModelsRuleTest extends RuleTestCase
         ]);
 
         return new ReadOnlyModelsRule(
-            reflectionProvider: $this->createReflectionProvider(),
-            domainResolver: $domainResolver,
+            $this->createReflectionProvider(),
+            $domainResolver,
         );
     }
 
