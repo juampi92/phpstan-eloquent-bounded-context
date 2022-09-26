@@ -17,7 +17,7 @@ class DomainResolverTest extends TestCase
         // Act
         $domainResolver = new DomainResolver([
             __DIR__.'/Fixtures/App/Domains/domains',
-        ]);
+        ], []);
 
         // Assert
         $this->assertTrue($domainResolver->has(Comment::class));
@@ -37,7 +37,7 @@ class DomainResolverTest extends TestCase
         $domainResolver = new DomainResolver([
             __DIR__.'/Fixtures/App/Domains/Posts/comment-domain',
             __DIR__.'/Fixtures/App/Domains/Posts/post-domain',
-        ]);
+        ], []);
 
         // Assert
         $this->assertTrue($domainResolver->has(Post::class));
@@ -56,7 +56,7 @@ class DomainResolverTest extends TestCase
         // Act
         $domainResolver = new DomainResolver([
             __DIR__.'/Fixtures/App/Domains/domains.yml',
-        ]);
+        ], []);
 
         // Assert
         $this->assertTrue($domainResolver->has(Post::class));
@@ -75,13 +75,28 @@ class DomainResolverTest extends TestCase
         ));
 
         // Act
-        new DomainResolver([$invalidConfig]);
+        new DomainResolver([$invalidConfig], []);
+    }
+
+    public function testItIgnoresCorrectly(): void
+    {
+        // Arrange
+        $invalidConfig = __DIR__.'/Fixtures/App/Domains/domains';
+
+        // Act
+        $domainResolver = new DomainResolver([$invalidConfig], ['Juampi92\PHPStanEloquentBoundedContext\Tests\Fixtures\App\Controllers']);
+
+        // Assert
+        $this->assertTrue(
+            $domainResolver->matches(Comment::class, ViolationController::class),
+            'The ViolationController should be ignored'
+        );
     }
 
     public function testItDoesAutoResolveModelsInsideDomains(): void
     {
         // Act
-        $domainResolver = new DomainResolver([]);
+        $domainResolver = new DomainResolver([], []);
 
         // Assert
         // Valid
@@ -98,7 +113,7 @@ class DomainResolverTest extends TestCase
      */
     public function testItDoesAutoResolveTheDomainCorrectly(bool $expected, string $model, string $domainClass): void
     {
-        $domainResolver = new DomainResolver([]);
+        $domainResolver = new DomainResolver([], []);
 
         $this->assertEquals(
             $expected, $domainResolver->matches($model, $domainClass)

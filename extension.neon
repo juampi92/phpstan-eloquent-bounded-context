@@ -7,7 +7,9 @@ services:
 	domainResolver:
 		class: Juampi92\PHPStanEloquentBoundedContext\DomainResolver
 		arguments:
-		    domainDefinitionFiles: %domainDefinitionFiles%
+		    domainDefinitionFiles: %eloquentBoundedContextConfigFiles%
+		    ignoredNamespaces: %eloquentBoundedContextIgnoredNamespaces%
 
 parametersSchema:
-    domainDefinitionFiles: listOf(string())
+    eloquentBoundedContextConfigFiles: listOf(string())
+    eloquentBoundedContextIgnoredNamespaces: listOf(string())

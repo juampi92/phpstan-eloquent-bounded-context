@@ -12,11 +12,16 @@ class DomainResolver
     /** @var Collection<class-string, string> */
     protected Collection $domains;
 
+    /** @var array<string> */
+    protected array $ignoredNamespaces;
+
     /**
      * @param  array<string>  $domainDefinitionFiles
+     * @param  array<string>  $ignoreNamespaces
      */
-    public function __construct(array $domainDefinitionFiles)
+    public function __construct(array $domainDefinitionFiles, array $ignoredNamespaces)
     {
+        $this->ignoredNamespaces = $ignoredNamespaces;
         $this->domains = collect($domainDefinitionFiles)
             // Normalize files to end with .yml
             ->map(fn (string $file) => Str::finish($file, '.yml'))
@@ -45,6 +50,11 @@ class DomainResolver
 
     public function matches(string $model, string $scope): bool
     {
+        if (Str::startsWith($scope, $this->ignoredNamespaces)) {
+            // If the scope belongs to an ignored namespace, we skip.
+            return true;
+        }
+
         $domain = $this->domains->get($model) ?: $this->autoResolve($model);
 
         if (! $domain) {
@@ -52,7 +62,7 @@ class DomainResolver
             return false;
         }
 
-        return str_starts_with($scope, $domain);
+        return Str::startsWith($scope, $domain);
     }
 
     public function has(string $classname): bool

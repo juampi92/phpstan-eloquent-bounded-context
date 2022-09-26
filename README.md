@@ -121,9 +121,23 @@ And after you must reference this file inside the `phpstan.neon.dist` config:
 
 ```neon
 parameters:
-	domainDefinitionFiles:
+	eloquentBoundedContextConfigFiles:
 	    - app/Domain/domains.yml
 ```
+
+### Configuring ignored namespaces
+
+You might want to ignore some namespaces and allow Models to be modified there. 
+
+```neon
+parameters:
+	eloquentBoundedContextConfigFiles:
+		- app/Domain/domains.yml
+	eloquentBoundedContextIgnoredNamespaces:
+		- Database\Factories
+		- Tests
+```
+
 
 ## Testing
 

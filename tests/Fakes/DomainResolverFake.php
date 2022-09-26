@@ -13,12 +13,14 @@ class DomainResolverFake extends DomainResolver
 
     /**
      * @param  array<class-string, string>  $map
+     * @param  array<string>  $ignore
      * @return $this
      */
-    public static function fromMap(array $map): self
+    public static function fromMap(array $map, array $ignore = []): self
     {
         $instance = new self();
         $instance->domains = collect($map);
+        $instance->ignoredNamespaces = $ignore;
 
         return $instance;
     }
