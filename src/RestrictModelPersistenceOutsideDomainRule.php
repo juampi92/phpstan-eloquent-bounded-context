@@ -11,7 +11,17 @@ use PHPStan\Rules\RuleErrorBuilder;
 class RestrictModelPersistenceOutsideDomainRule implements Rule
 {
     /** @var array<string> */
-    private const MUTABLE_METHODS = ['save', 'update', 'create'];
+    private const MUTABLE_METHODS = [
+        // Update
+        'update', 'increment', 'decrement',
+        // Create / Update
+        'create', 'save', 'saveQuietly', 'createQuietly',
+        'updateOrCreate', 'firstOrCreate', 'upsert',
+        // Mutate
+        'setAttribute', 'fill',
+        // Delete
+        'delete', 'restore', 'forceDelete', 'deleteQuietly', 'restoreQuietly',
+    ];
 
     private DomainResolver $domainResolver;
 

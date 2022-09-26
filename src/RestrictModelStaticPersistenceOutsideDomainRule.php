@@ -12,7 +12,14 @@ use PHPStan\Rules\RuleErrorBuilder;
 class RestrictModelStaticPersistenceOutsideDomainRule implements Rule
 {
     /** @var array<string> */
-    private const MUTABLE_METHODS = ['create', 'findOrCreate'];
+    private const MUTABLE_METHODS = [
+        // Create
+        'create', 'findOrCreate', 'createQuietly', 'firstOrCreate',
+        // Update
+        'updateOrCreate', 'upsert',
+        // Delete
+        'destroy', 'truncate',
+    ];
 
     private DomainResolver $domainResolver;
 
