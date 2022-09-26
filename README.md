@@ -138,6 +138,11 @@ parameters:
 		- Tests
 ```
 
+## Contribute
+
+To-do:
+
+- [ ] Ignored Models. (general purpose models that don't have a Domain).
 
 ## Testing
 
