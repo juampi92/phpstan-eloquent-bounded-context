@@ -49,6 +49,11 @@ class RestrictModelPersistenceOutsideDomainRule implements Rule
             return [];
         }
 
+        if (! $scope->getNamespace()) {
+            // If there is no namespace, there is nothing to check.
+            return [];
+        }
+
         if (! in_array($node->name->toString(), self::MUTABLE_METHODS)) {
             // We only care about mutable eloquent methods.
             return [];
@@ -56,6 +61,10 @@ class RestrictModelPersistenceOutsideDomainRule implements Rule
 
         /** @var Node\Expr\Variable $variable */
         $variable = $node->var;
+
+        if (! $variable instanceof Node\Expr\Variable) {
+            return [];
+        }
 
         $classname = $scope->getType($variable)->getReferencedClasses()[0] ?? null;
 
@@ -66,8 +75,6 @@ class RestrictModelPersistenceOutsideDomainRule implements Rule
         $class = $this->reflectionProvider->getClass($classname);
 
         if (! $class->isSubclassOf(Model::class)) {
-            var_dump($class->getName(), $class->getParentClassesNames(), $class->getParents(), $class->getParentClass());
-
             return [];
         }
 

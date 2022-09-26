@@ -36,8 +36,17 @@ class RestrictModelMutationOutsideDomainRule implements Rule
             return [];
         }
 
+        if (! $scope->getNamespace()) {
+            // If there is no namespace, there is nothing to check.
+            return [];
+        }
+
         /** @var Node\Expr\Variable $variable */
         $variable = $node->var->var;
+
+        if (! $variable instanceof Node\Expr\Variable) {
+            return [];
+        }
 
         $classname = $scope->getType($variable)->getReferencedClasses()[0] ?? null;
 

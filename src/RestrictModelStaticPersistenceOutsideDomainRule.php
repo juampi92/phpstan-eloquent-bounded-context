@@ -47,6 +47,11 @@ class RestrictModelStaticPersistenceOutsideDomainRule implements Rule
             return [];
         }
 
+        if (! $scope->getNamespace()) {
+            // If there is no namespace, there is nothing to check.
+            return [];
+        }
+
         if (! in_array($node->name->toString(), self::MUTABLE_METHODS)) {
             // We only care about mutable eloquent methods.
             return [];
@@ -62,8 +67,6 @@ class RestrictModelStaticPersistenceOutsideDomainRule implements Rule
         $class = $this->reflectionProvider->getClass($classname);
 
         if (! $class->isSubclassOf(Model::class)) {
-            var_dump($class->getName(), $class->getParentClassesNames(), $class->getParents(), $class->getParentClass());
-
             return [];
         }
 
