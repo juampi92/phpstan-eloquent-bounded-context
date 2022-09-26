@@ -2,6 +2,7 @@
 
 namespace Juampi92\PHPStanEloquentBoundedContext\Tests\Fixtures\App\Domains\Posts\Actions;
 
+use Juampi92\PHPStanEloquentBoundedContext\Tests\Fixtures\App\Domains\Posts\Comment;
 use Juampi92\PHPStanEloquentBoundedContext\Tests\Fixtures\App\Domains\Posts\Models\Post;
 
 final class CreatePostAction
@@ -12,5 +13,9 @@ final class CreatePostAction
         $post->title = $title;
 
         $post->save();
+
+        $comment = new Comment();
+        $comment->content = 'My comment';
+        $comment->save();
     }
 }

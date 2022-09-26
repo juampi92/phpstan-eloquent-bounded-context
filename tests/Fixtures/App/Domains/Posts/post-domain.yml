@@ -1,0 +1,4 @@
+domains:
+  - namespace: Juampi92\PHPStanEloquentBoundedContext\Tests\Fixtures\App\Domains\Posts
+    models:
+      - Juampi92\PHPStanEloquentBoundedContext\Tests\Fixtures\App\Domains\Posts\Models\Post
