@@ -32,7 +32,7 @@ class RestrictModelUpdateRuleTest extends RuleTestCase
     public function testViolation(): void
     {
         $this->analyse([__DIR__.'/Fixtures/App/Controllers/ViolationController.php'], [
-            [sprintf("Calling 'save' on '%s' outside of its Domain is not allowed.", User::class), 15],
+            [sprintf("Calling 'save' on '%s' outside of its Domain is not allowed.", User::class), 16],
         ]);
     }
 

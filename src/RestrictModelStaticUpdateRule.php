@@ -10,10 +10,10 @@ use PHPStan\Reflection\ReflectionProvider;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleErrorBuilder;
 
-class RestrictModelUpdateRule implements Rule
+class RestrictModelStaticUpdateRule implements Rule
 {
     /** @var array<string> */
-    private const MUTABLE_METHODS = ['save', 'update', 'create'];
+    private const MUTABLE_METHODS = ['create', 'findOrCreate'];
 
     private ReflectionProvider $reflectionProvider;
 
@@ -27,11 +27,11 @@ class RestrictModelUpdateRule implements Rule
 
     public function getNodeType(): string
     {
-        return Node\Expr\MethodCall::class;
+        return Node\Expr\StaticCall::class;
     }
 
     /**
-     * @param  Assign  $node
+     * @param  Node\Identifier  $node
      */
     public function processNode(Node $node, Scope $scope): array
     {
@@ -44,14 +44,12 @@ class RestrictModelUpdateRule implements Rule
             return [];
         }
 
-        /** @var Node\Expr\Variable $identifier */
-        $identifier = $node->var;
-
-        $classname = $scope->getType($identifier)->getReferencedClasses()[0] ?? null;
-
-        if (! $classname) {
+        if (! $node->class instanceof \PhpParser\Node\Name\FullyQualified) {
             return [];
         }
+
+        /** @var \PhpParser\Node\Name\FullyQualified $class */
+        $classname = (string) $node->class;
 
         $class = $this->reflectionProvider->getClass($classname);
 
@@ -75,7 +73,7 @@ class RestrictModelUpdateRule implements Rule
 
         return [
             RuleErrorBuilder::message(
-                "Calling '{$node->name->toString()}' on '{$classname}' outside of its Domain is not allowed.",
+                "Calling '{$classname}::{$node->name->toString()}' outside of its Domain is not allowed."
             )->build(),
         ];
     }

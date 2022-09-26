@@ -17,5 +17,9 @@ final class CreatePostAction
         $comment = new Comment();
         $comment->content = 'My comment';
         $comment->save();
+
+        Post::create([
+            'title' => 'my title',
+        ]);
     }
 }
