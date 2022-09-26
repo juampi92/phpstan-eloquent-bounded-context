@@ -2,8 +2,7 @@
 
 namespace Juampi92\PHPStanEloquentBoundedContext\Tests;
 
-use Juampi92\PHPStanEloquentBoundedContext\ReadOnlyModelsRule;
-use Juampi92\PHPStanEloquentBoundedContext\RestrictModelUpdateRule;
+use Juampi92\PHPStanEloquentBoundedContext\RestrictModelPersistenceOutsideDomainRule;
 use Juampi92\PHPStanEloquentBoundedContext\Tests\Fakes\DomainResolverFake;
 use Juampi92\PHPStanEloquentBoundedContext\Tests\Fixtures\App\Domains\Posts\Comment;
 use Juampi92\PHPStanEloquentBoundedContext\Tests\Fixtures\App\Domains\Posts\Models\Post;
@@ -12,9 +11,9 @@ use PHPStan\Rules\Rule;
 use PHPStan\Testing\RuleTestCase;
 
 /**
- * @extends RuleTestCase<RestrictModelUpdateRule>
+ * @extends RuleTestCase<RestrictModelPersistenceOutsideDomainRule>
  */
-class ReadOnlyModelsRuleTest extends RuleTestCase
+class RestrictModelPersistenceOutsideDomainRuleTest extends RuleTestCase
 {
     protected function getRule(): Rule
     {
@@ -24,7 +23,7 @@ class ReadOnlyModelsRuleTest extends RuleTestCase
             Post::class => 'Juampi92\PHPStanEloquentBoundedContext\Tests\Fixtures\App\Domains\Posts',
         ]);
 
-        return new ReadOnlyModelsRule(
+        return new RestrictModelPersistenceOutsideDomainRule(
             $this->createReflectionProvider(),
             $domainResolver,
         );
@@ -33,7 +32,7 @@ class ReadOnlyModelsRuleTest extends RuleTestCase
     public function testViolation(): void
     {
         $this->analyse([__DIR__.'/Fixtures/App/Controllers/ViolationController.php'], [
-            ['Mutating an Eloquent Model outside of its Domain is not allowed.', 15],
+            [sprintf("Calling 'save' on '%s' outside of its Domain is not allowed.", User::class), 16],
         ]);
     }
 

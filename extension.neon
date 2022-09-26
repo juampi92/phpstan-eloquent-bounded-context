@@ -1,7 +1,7 @@
 rules:
-    - Juampi92\PHPStanEloquentBoundedContext\ReadOnlyModelsRule
-    - Juampi92\PHPStanEloquentBoundedContext\RestrictModelUpdateRule
-    - Juampi92\PHPStanEloquentBoundedContext\RestrictModelStaticUpdateRule
+    - Juampi92\PHPStanEloquentBoundedContext\RestrictModelMutationOutsideDomainRule
+    - Juampi92\PHPStanEloquentBoundedContext\RestrictModelPersistenceOutsideDomainRule
+    - Juampi92\PHPStanEloquentBoundedContext\RestrictModelStaticPersistenceOutsideDomainRule
 
 services:
 	domainResolver:

@@ -4,15 +4,16 @@ namespace Juampi92\PHPStanEloquentBoundedContext;
 
 use Illuminate\Database\Eloquent\Model;
 use PhpParser\Node;
+use PhpParser\Node\Expr\MethodCall;
 use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\ReflectionProvider;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleErrorBuilder;
 
-class RestrictModelStaticUpdateRule implements Rule
+class RestrictModelPersistenceOutsideDomainRule implements Rule
 {
     /** @var array<string> */
-    private const MUTABLE_METHODS = ['create', 'findOrCreate'];
+    private const MUTABLE_METHODS = ['save', 'update', 'create'];
 
     private ReflectionProvider $reflectionProvider;
 
@@ -26,11 +27,11 @@ class RestrictModelStaticUpdateRule implements Rule
 
     public function getNodeType(): string
     {
-        return Node\Expr\StaticCall::class;
+        return MethodCall::class;
     }
 
     /**
-     * @param  Node\Identifier  $node
+     * @param  MethodCall  $node
      */
     public function processNode(Node $node, Scope $scope): array
     {
@@ -43,12 +44,14 @@ class RestrictModelStaticUpdateRule implements Rule
             return [];
         }
 
-        if (! $node->class instanceof \PhpParser\Node\Name\FullyQualified) {
+        /** @var Node\Expr\Variable $variable */
+        $variable = $node->var;
+
+        $classname = $scope->getType($variable)->getReferencedClasses()[0] ?? null;
+
+        if (! $classname) {
             return [];
         }
-
-        /** @var \PhpParser\Node\Name\FullyQualified $class */
-        $classname = (string) $node->class;
 
         $class = $this->reflectionProvider->getClass($classname);
 
@@ -72,7 +75,7 @@ class RestrictModelStaticUpdateRule implements Rule
 
         return [
             RuleErrorBuilder::message(
-                "Calling '{$classname}::{$node->name->toString()}' outside of its Domain is not allowed."
+                "Calling '{$node->name->toString()}' on '{$classname}' outside of its Domain is not allowed.",
             )->build(),
         ];
     }

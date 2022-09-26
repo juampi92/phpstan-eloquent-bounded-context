@@ -10,7 +10,7 @@ use PHPStan\Reflection\ReflectionProvider;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleErrorBuilder;
 
-class ReadOnlyModelsRule implements Rule
+class RestrictModelMutationOutsideDomainRule implements Rule
 {
     private ReflectionProvider $reflectionProvider;
 
