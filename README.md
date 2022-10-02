@@ -38,7 +38,7 @@ public function store(Request $request)
 }
 ```
 
-Will fail saying:
+PHPStan will fail saying:
 
 ```
  ---------------------------------------------------------------------------
@@ -48,14 +48,13 @@ Will fail saying:
  ---------------------------------------------------------------------------
 ```
 
-This package will detect mutations:
+> To fix this error, instead of calling `save` inside the Controller directly, create an Action inside the Post domain (or a PostService class) and use that class to create and persist the model.
 
-```
-$post->title = 'My title';
-```
+### This package will also detect:
 
-As well as methods that persistent the data, like `save`, `update`, `delete`, etc.
-And also static methods like `::create()`, `::updateOrCreate()`, etc.
+- Model attribute mutations like: `$post->title = 'My title';`,
+- Methods persist the data in the database, like `save`, `update`, `delete`, etc,
+- Static methods that persist the data, like `::create()`, `::updateOrCreate()`, etc.
 
 ## Installation
 
@@ -140,9 +139,10 @@ parameters:
 
 ## Contribute
 
-To-do:
+### Features to do:
 
-- [ ] Ignored Models. (general purpose models that don't have a Domain).
+- [ ] Ignore no-configuration resolution when a config is used.
+- [ ] Propose /** @mutates */ tag or #Attribute to prohibit these methods being called outside of the domain.
 
 ## Testing
 
