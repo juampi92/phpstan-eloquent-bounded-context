@@ -10,7 +10,7 @@ use PHPStan\Rules\Rule;
 use PHPStan\Testing\RuleTestCase;
 
 /**
- * @extends RuleTestCase<RestrictModelStaticPersistenceOutsideDomainRuleTest>
+ * @extends RuleTestCase<RestrictModelStaticPersistenceOutsideDomainRule>
  */
 class RestrictModelStaticPersistenceOutsideDomainRuleTest extends RuleTestCase
 {
@@ -37,5 +37,8 @@ class RestrictModelStaticPersistenceOutsideDomainRuleTest extends RuleTestCase
     public function testSuccess(): void
     {
         $this->analyse([__DIR__.'/Fixtures/App/Domains/Posts/Actions/CreatePostAction.php'], []);
+        $this->analyse([__DIR__.'/Fixtures/App/Domains/Posts/Models/Post.php'], []);
+        $this->analyse([__DIR__.'/Fixtures/App/Domains/Posts/Comment.php'], []);
+        $this->analyse([__DIR__.'/Fixtures/App/Models/User.php'], []);
     }
 }

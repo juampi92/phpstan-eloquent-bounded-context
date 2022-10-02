@@ -10,4 +10,8 @@ use Illuminate\Database\Eloquent\Model;
  */
 class User extends Model
 {
+    public function myMethod(string $email): void
+    {
+        $this->email = $email;
+    }
 }

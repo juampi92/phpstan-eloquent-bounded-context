@@ -10,4 +10,8 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Post extends Model
 {
+    public function myMethod(string $title): void
+    {
+        $this->title = $title;
+    }
 }

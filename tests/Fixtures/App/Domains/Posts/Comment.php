@@ -10,4 +10,8 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Comment extends Model
 {
+    public function myMethod(string $content): void
+    {
+        $this->content = $content;
+    }
 }

@@ -54,6 +54,11 @@ class RestrictModelMutationOutsideDomainRule implements Rule
             return [];
         }
 
+        if ($classname === $scope->getClassReflection()->getName()) {
+            // Ignore if it's inside the same Model.
+            return [];
+        }
+
         $class = $this->reflectionProvider->getClass($classname);
 
         if (! $class->isSubclassOf(Model::class)) {

@@ -39,5 +39,8 @@ class RestrictModelPersistenceOutsideDomainRuleTest extends RuleTestCase
     public function testSuccess(): void
     {
         $this->analyse([__DIR__.'/Fixtures/App/Domains/Posts/Actions/CreatePostAction.php'], []);
+        $this->analyse([__DIR__.'/Fixtures/App/Domains/Posts/Models/Post.php'], []);
+        $this->analyse([__DIR__.'/Fixtures/App/Domains/Posts/Comment.php'], []);
+        $this->analyse([__DIR__.'/Fixtures/App/Models/User.php'], []);
     }
 }
